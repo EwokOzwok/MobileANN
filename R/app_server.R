@@ -42,7 +42,6 @@ app_server <- function(input, output, session) {
               br(),
               br(),
               br(),
-              br(),
               f7BlockFooter(f7Align(h4("Swipe up to close this popup"), side=c("center"))))
     )
   })
@@ -66,7 +65,6 @@ app_server <- function(input, output, session) {
                        h5(f7Icon("cloud_download"), "- Download sample data to make predictions"),
                        hairlines = F, strong = T, inset =
                          F, tablet = FALSE)),
-              br(),
               br(),
               br(),
               br(),
@@ -158,7 +156,7 @@ app_server <- function(input, output, session) {
     })
     output$ModelImage<-renderUI({
       tagList(
-      HTML('<center><img src="https://i.ibb.co/xSv4NZV/Neural-Net.png" width=60%></center>')
+      HTML('<center><img src="https://i.ibb.co/xSv4NZV/Neural-Net.png" width=70%></center>')
       )
     })
   })
@@ -225,10 +223,11 @@ app_server <- function(input, output, session) {
 # Clear Prediction Space --------------------------------------------------
 
     observeEvent(input$Clear, {
-      output$pred1 <- renderText({})
-      output$pred2 <- renderText({})
-      output$ModelImage <- renderText({})
-    })
+      output$Predictions <- renderText({})
+      output$ModelInformation <- renderText({})
+      output$pred11 <- renderText({})
+      output$pred22 <- renderText({})
+      })
 
 
 
