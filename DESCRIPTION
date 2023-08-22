@@ -1,0 +1,25 @@
+Package: MobileANN
+Title: MobileANN
+Version: 1.0.0.1000
+Authors@R: 
+    person("Evan", "Ozmat", , "eozmat@albany.edu", role = c("cre", "aut"))
+Description: This is a ShinyMobile ANN demo.
+License: Apache License (>= 2)
+Depends: 
+    R (>= 2.10)
+Imports: 
+    config (>= 0.3.1),
+    deepviz,
+    dplyr,
+    golem (>= 0.4.1),
+    htmltools,
+    keras,
+    pkgload,
+    shiny (>= 1.7.4.9002),
+    shinyMobile,
+    stats,
+    tensorflow,
+    utils
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3

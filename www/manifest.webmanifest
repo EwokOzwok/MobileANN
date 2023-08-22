@@ -1,0 +1,30 @@
+{
+  "name": "Mobile ANN Predictor",
+  "short_name": "ANN Predictor",
+  "description": "This app provides Time 3 predictions of student's severity of depression.",
+  "lang": "en-US",
+  "start_url": "https://ualbanyprojectaccess.shinyapps.io/MobileANN/",
+  "display": "standalone",
+  "background_color": "#B6B9B8",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "icons/icon-144.png",
+      "sizes": "144x144"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Shortcut",
+      "short_name": "Shortcut",
+      "description": "Do something",
+      "url": "https://ualbanyprojectaccess.shinyapps.io/MobileANN/",
+      "icons": [
+        {
+          "src": "icons/shortcut.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
