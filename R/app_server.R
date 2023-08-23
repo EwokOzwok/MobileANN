@@ -8,7 +8,6 @@
 #' @import keras
 #' @import dplyr
 #' @import utils
-#' @import deepviz
 #' @noRd
 app_server <- function(input, output, session) {
 
@@ -33,8 +32,9 @@ app_server <- function(input, output, session) {
                 intensity = 30,
                 hover = F,
                 f7Card(f7BlockHeader(text="What do the buttons do?"),
-                       h5(f7Icon("wand_stars_inverse"),"- Make Predictions using the ANN"),
-                       h5(f7Icon("cloud_download"), "- Download sample data to make predictions"),
+                       h5(f7Icon("cloud_download"), "- Download sample data"),
+                       h5(f7Icon("wand_stars_inverse"),"- Generate ANN predictions"),
+                       h5(f7Icon("hammer_fill"),"- Change data & predict again"),
                        hairlines = F, strong = T, inset =
                          F, tablet = FALSE)),
               br(),
@@ -61,8 +61,9 @@ app_server <- function(input, output, session) {
                 intensity = 30,
                 hover = F,
                 f7Card(f7BlockHeader(text="What do the buttons do?"),
-                       h5(f7Icon("wand_stars_inverse"),"- Make Predictions using the ANN"),
-                       h5(f7Icon("cloud_download"), "- Download sample data to make predictions"),
+                       h5(f7Icon("cloud_download"), "- Download sample data"),
+                       h5(f7Icon("wand_stars_inverse"),"- Generate ANN predictions"),
+                       h5(f7Icon("hammer_fill"),"- Change data & predict again"),
                        hairlines = F, strong = T, inset =
                          F, tablet = FALSE)),
               br(),
@@ -72,6 +73,9 @@ app_server <- function(input, output, session) {
               br(),
               f7BlockFooter(f7Align(h4("Swipe up to close this popup"), side=c("center"))))
     )
+    output$ModelInformation <- renderUI({
+      tagList()
+    })
   })
 
 
@@ -147,18 +151,13 @@ app_server <- function(input, output, session) {
     output$ModelInformation <- renderUI({
       tagList(
         f7Card(
-          f7Align(h2("Model"), side=c("left")),
-          uiOutput("ModelImage"),
+          f7Align(h2("Model"), side=c("center")),
+          HTML('<center><img src="https://i.ibb.co/xSv4NZV/Neural-Net.png" width=70%></center>'),
           hairlines = F, strong = T, inset =
             F, tablet = FALSE)
       )
+    })
 
-    })
-    output$ModelImage<-renderUI({
-      tagList(
-      HTML('<center><img src="https://i.ibb.co/xSv4NZV/Neural-Net.png" width=70%></center>')
-      )
-    })
   })
 
 
@@ -224,11 +223,15 @@ app_server <- function(input, output, session) {
 
     observeEvent(input$Clear, {
       output$Predictions <- renderText({})
-      output$ModelInformation <- renderText({})
       output$pred11 <- renderText({})
       output$pred22 <- renderText({})
       })
 
+  observeEvent(input$Clear1, {
+  output$newmodelpreds<- renderUI({
+    tagList()
+  })
+  })
 
 
 # Altering Input data -----------------------------------------------------
@@ -265,6 +268,7 @@ observeEvent(rawData(),{
 
 
 observeEvent(input$NewPred,{
+  req(rawData())
   data1<-matrix(nrow = 1, ncol = 24)
   data1[,1]<-input$DEP1
   data1[,2]<-input$PEARLS1
@@ -331,6 +335,23 @@ observeEvent(input$NewPred,{
     paste(c("Prediction Confidence:", round(PredictionLikelihood1, digits = 2), "%"))
 
   })
+
+  output$newmodelpreds<-renderUI({
+    tagList(
+      f7Block(
+        f7Shadow(
+          intensity = 5,
+          hover = TRUE,
+          f7Card(
+            f7Align(h2("New Prediction"), side=c("center")),
+            textOutput("pred11"),
+            textOutput("pred22")
+          ))
+
+    )
+    )
+  })
+
 
 })
 
