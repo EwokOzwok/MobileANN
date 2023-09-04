@@ -227,7 +227,15 @@ golem_add_external_resources <- function() {
   # )
 
   tags$head(
-    includeHTML("google-analytics.html"),
+    HTML('<script async src="https://www.googletagmanager.com/gtag/js?id=G-FR41PQ9Y8B"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag(“js”, new Date());
+
+  gtag(“config”, “G-FR41PQ9Y8B”);
+</script>'),
+    # includeHTML("google-analytics.html"),
     includeCSS("www/framework7.bundle.min.css")
     # favicon(),
     # bundle_resources(
