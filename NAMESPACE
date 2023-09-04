@@ -3,7 +3,6 @@
 export(add_pwa_deps)
 export(add_pwacompat_deps)
 export(run_app)
-import(deepviz)
 import(dplyr)
 import(keras)
 import(shiny)
