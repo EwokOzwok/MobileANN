@@ -236,7 +236,9 @@ golem_add_external_resources <- function() {
   gtag(“config”, “G-FR41PQ9Y8B”);
 </script>'),
     # includeHTML("google-analytics.html"),
-    includeCSS("www/framework7.bundle.min.css")
+    # includeCSS("www/framework7.bundle.min.css")
+    HTML('<link rel="stylesheet" type="text/css" href="https://ewokozwok.github.io/MobileANN/www/framework7.bundle.min.css">')
+
     # favicon(),
     # bundle_resources(
     #   path = app_sys("app/www"),
