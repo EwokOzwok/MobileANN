@@ -11,7 +11,7 @@
 #' @import reticulate
 #' @noRd
 app_server <- function(input, output, session) {
-reticulate::use_virtualenv(virtualenv='r-tensorflow', required=T)
+# reticulate::use_virtualenv(virtualenv='r-tensorflow', required=T)
 
 # Load Model on Startup ---------------------------------------------------
 
