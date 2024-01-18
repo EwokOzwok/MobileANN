@@ -201,10 +201,55 @@ app_ui <- function(request) {
                                            hr()))),
                        hairlines = F, strong = T, inset =
                          F, tablet = FALSE))
-            ))
+            )),
+
+          f7Tab(
+            tabName = "PerspectiveTab",
+            icon = f7Icon("perspective"),
+            active = TRUE,
+            f7Block(
+              f7Shadow(
+                intensity = 5,
+                hover = TRUE,
+                f7Card(title = "Perspectives",
+                       br(),
+                       uiOutput("delta_ace_pred"),
+                       f7Segment(container=c("row"),
+                                 f7Button("changeace", "New Prediction"),
+                                 f7Button("Clear2", "Clear")),
+                       br(),
+                       f7Align(h3("Change Scores by Standard Deviation"), side=c("center")),
+                       fluidRow(
+                         column(8, align="center", offset = 0,
+                                f7Stepper("changePREaceslider", "Pre ACEs",
+                                          value = 0, step = .25, min = -2, max = 2, fill=T, raised = T,
+                                          rounded=T, decimalPoint = 2))),
+                       br(),
+                       fluidRow(
+                         column(8, align="center", offset = 0,
+                                f7Stepper("changePOSTaceslider", "Post ACEs",
+                                          value = 0, step = .25, min = -2, max = 2, fill=T, raised = T,
+                                          rounded=T, decimalPoint = 2))),
+                       br(),
+                       fluidRow(
+                         column(8, align="center", offset = 0,
+                                f7Stepper("changePREdepslider", "Pre Depression",
+                                          value = 0, step = .25, min = -2, max = 2, fill=T, raised = T,
+                                          rounded=T, decimalPoint = 2))),
+                       br(),
+                       fluidRow(
+                         column(8, align="center", offset = 0,
+                                f7Stepper("changePOSTdepslider", "Post Depression",
+                                          value = 0, step = .25, min = -2, max = 2, fill=T, raised = T,
+                                          rounded=T, decimalPoint = 2))),
 
 
-
+                       br(),
+                       hr(),
+                       hairlines = F, strong = T, inset =
+                         F, tablet = FALSE))
+            )
+          )
 
 )
 )

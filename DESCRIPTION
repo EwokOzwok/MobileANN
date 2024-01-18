@@ -13,6 +13,7 @@ Imports:
     golem (>= 0.4.1),
     htmltools,
     keras,
+    reticulate,
     shiny (>= 1.7.4.9002),
     shinyMobile,
     stats,

@@ -41,7 +41,7 @@ usethis::use_data_raw(name = "normal", open = T)
 usethis::use_data_raw(name = "mild", open = T)
 usethis::use_data_raw(name = "moderate", open = T)
 usethis::use_data_raw(name = "severe", open = T)
-
+usethis::use_data_raw(name = "sd_data", open = T)
 
 ## Tests ----
 ## Add one line by test you want to create

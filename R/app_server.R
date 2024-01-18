@@ -8,9 +8,10 @@
 #' @import keras
 #' @import dplyr
 #' @import utils
+#' @import reticulate
 #' @noRd
 app_server <- function(input, output, session) {
-
+reticulate::use_virtualenv(virtualenv='r-tensorflow', required=T)
 
 # Load Model on Startup ---------------------------------------------------
 
@@ -87,7 +88,7 @@ app_server <- function(input, output, session) {
   mild<-as.data.frame(mild)
   moderate<-as.data.frame(moderate)
   severe<-as.data.frame(severe)
-
+  sd_data<-as.data.frame(sd_data)
 
 # Download Data  ----------------------------------------------------------
 
@@ -233,6 +234,11 @@ app_server <- function(input, output, session) {
   })
   })
 
+  observeEvent(input$Clear2, {
+    output$delta_ace_pred<- renderUI({
+      tagList()
+    })
+  })
 
 # Altering Input data -----------------------------------------------------
 
@@ -351,6 +357,97 @@ observeEvent(input$NewPred,{
     )
     )
   })
+
+
+})
+
+
+
+
+# Change ACES Button ------------------------------------------------------
+observeEvent(input$changeace,{
+  req(rawData())
+  data_ace<-as.matrix(rawData())
+  print(data_ace)
+  PreACES_sd<-sd_data[2,1]
+  PostACES_sd<-sd_data[14,1]
+  PreDEP_sd<-sd_data[1,1]
+  PostDEP_sd<-sd_data[13,1]
+
+  PreACES_SD_rate<-input$changePREaceslider
+  PostACES_SD_rate<-input$changePOSTaceslider
+
+  PreDEP_SD_rate<-input$changePREdepslider
+  PostDEP_SD_rate<-input$changePOSTdepslider
+
+  data_ace[,2]<-data_ace[,2]+(PreACES_sd*PreACES_SD_rate)
+  data_ace[,14]<-data_ace[,14]+(PostACES_sd*PostACES_SD_rate)
+
+  data_ace[,1]<-data_ace[,1]+(PreDEP_sd*PreDEP_SD_rate)
+  data_ace[,13]<-data_ace[,13]+(PostDEP_sd*PostDEP_SD_rate)
+
+  pred_ace_delta<- model %>% predict(data_ace)
+  print(pred_ace_delta)
+
+  pred_ace_delta_df<-as.data.frame(pred_ace_delta)
+
+  colnames(pred_ace_delta_df)<-c("Normal", "Mild", "Moderate", "Severe")
+
+
+
+  if((pred_ace_delta_df$Normal > pred_ace_delta_df$Mild)&(pred_ace_delta_df$Normal > pred_ace_delta_df$Moderate)&(pred_ace_delta_df$Normal > pred_ace_delta_df$Severe)){
+    Class_ace<-c("Normal")
+    PredictionLikelihood_ace<-pred_ace_delta_df$Normal*100
+  }
+
+  if((pred_ace_delta_df$Mild > pred_ace_delta_df$Normal)&(pred_ace_delta_df$Mild > pred_ace_delta_df$Moderate)&(pred_ace_delta_df$Mild > pred_ace_delta_df$Severe)){
+    Class_ace<-c("Mild")
+    PredictionLikelihood_ace<-pred_ace_delta_df$Mild*100
+  }
+
+  if((pred_ace_delta_df$Moderate > pred_ace_delta_df$Normal)&(pred_ace_delta_df$Moderate > pred_ace_delta_df$Mild)&(pred_ace_delta_df$Moderate > pred_ace_delta_df$Severe)){
+    Class_ace<-c("Moderate")
+    PredictionLikelihood_ace<-pred_ace_delta_df$Moderate*100
+  }
+
+  if((pred_ace_delta_df$Severe > pred_ace_delta_df$Normal)&(pred_ace_delta_df$Severe > pred_ace_delta_df$Mild)&(pred_ace_delta_df$Severe > pred_ace_delta_df$Moderate)){
+    Class_ace<-c("Severe")
+    PredictionLikelihood_ace<-pred_ace_delta_df$Severe*100
+  }
+
+
+
+  output$pred_ace <- renderText({
+    paste(c("Student's predicted depression class after mid-terms:"), Class_ace)
+
+  })
+
+  output$pred_ace_conf <- renderText({
+    paste(c("Prediction Confidence:", round(PredictionLikelihood_ace, digits = 2), "%"))
+
+  })
+
+  output$delta_ace_pred<-renderUI({
+    tagList(
+      f7Block(
+        f7Shadow(
+          intensity = 5,
+          hover = TRUE,
+          f7Card(
+            f7Align(h2("New Prediction"), side=c("center")),
+            textOutput("pred_ace"),
+            textOutput("pred_ace_conf")
+          ))
+
+      ),
+      br()
+    )
+  })
+
+
+
+
+
 
 
 })
